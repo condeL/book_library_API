@@ -1,0 +1,11 @@
+{
+  "name": "basic_library_api",
+  "version": "0.1.0",
+  "description": "REST Library API",
+  "main": "index.js",
+  "scripts": {
+    "seed": "node data/seeder.js",
+    "start": "node index.js"
+  },
+  "author": "Lanciné Condé"
+}
