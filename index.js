@@ -11,6 +11,12 @@ const server = http.createServer(async (req, res) => {
     //set request route
     const url = req.url;
 
+    const buffers = [];
+    for await (const chunk of req) {
+        buffers.push(chunk);
+    }
+    const data = Buffer.concat(buffers).toString();
+
     // /api/books/:id/page/id:/html : GET
     if (url.match(/\/api\/books\/(\d+)\/page\/(\d+)\/html$/) && req.method === "GET") {
         // get ids from url
@@ -29,6 +35,10 @@ const server = http.createServer(async (req, res) => {
     // /api/books : GET
     else if (url === "/api/books" && req.method === "GET") {
         await new BooksController().getAllBooks(req, res);
+    }
+    // /api/books :POST
+    else if (url === "/api/books" && req.method === "POST") {
+        await new BooksController().createBook(req, res, JSON.parse(data));
     }
     // No route present
     else {

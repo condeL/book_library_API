@@ -4,10 +4,11 @@
  */
 
 const data = require("../data/books_DB.json");
+const fs = require('fs');
 
 class BooksModel {
     // @desc Retrieves all the books
-    async findBooks() {
+    async findAllBooks() {
         // return all books
         return new Promise((resolve, _) => resolve(data));
     }
@@ -43,6 +44,24 @@ class BooksModel {
             } else {
                 // return an error
                 reject(`Book with id ${book_id} not found`);
+            }
+        });
+    }
+
+    // @desc Creates a new book
+    async createBook(book) {
+        // creates a new book
+        return new Promise((resolve, reject) => {
+
+            book.id = data.length + 1;
+            data.push(book);
+            let books_DB = JSON.stringify(data, null, 4);
+            try {
+                fs.writeFile('./data/books_DB.json', books_DB, () => {
+                    resolve(JSON.stringify(book, null, 4));
+                });
+            } catch (error){
+                reject(JSON.stringify(error));
             }
         });
     }

@@ -13,7 +13,7 @@ class BooksController {
     async getAllBooks(req, res) {
         try {
             // get the books
-            const books = await new Books().findBooks();
+            const books = await new Books().findAllBooks();
 
             // set the status code, and content-type
             res.writeHead(200, {"Content-Type": "application/json"});
@@ -71,6 +71,24 @@ class BooksController {
     }
 
     /*
+    *@desc Gets a single book page in HTML format
+    *@route GET: /api/books/:id/page/id:/html
+    */
+    async createBook(req, res, book) {
+        try {
+            const result = await new Books().createBook(book);
+
+            // set the status code and content-type
+            res.writeHead(200, {"Content-Type": "application/json"});
+            // send the data
+            res.end(result);
+
+        } catch (error) {
+            errorMsg(res, error);
+        }
+    }
+
+    /*
     *@desc Displays error message when no route is found
     */
     async noRouteFound(req, res) {
@@ -81,7 +99,8 @@ class BooksController {
 
 //error message printer
 function errorMsg(res, error){
-    res.writeHead(404, {"Content-Type": "application/json"}).end(error);
+    res.writeHead(404, {"Content-Type": "application/json"})
+    res.end(error);
 }
 
 module.exports = BooksController;
