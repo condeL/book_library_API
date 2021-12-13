@@ -68,6 +68,35 @@ class BooksModel {
         });
     }
 
+    // @desc Creates a book page
+    async createBookPage(book_id, page_update) {
+        return new Promise((resolve, reject) => {
+            // get the book
+            let book = data.find((book) => book.id === parseInt(book_id));
+
+            if (book) {
+                //create a new page
+                page_update.page_id = book.pages.length+1;
+                //todo add input validation
+                book.pages.push(page_update);
+                let books_DB = JSON.stringify(data, null, 4);
+
+                try {
+                    //write to the DB
+                    fs.writeFile('./data/books_DB.json', books_DB, () => {
+                        resolve(JSON.stringify(page_update, null, 4));
+                    });
+                } catch (error) {
+                    reject(JSON.stringify(error));
+                }
+            }
+            else {
+                // return an error
+                reject(`Book with id ${book_id} not found `);
+            }
+        });
+    }
+
     // @desc Updates book title
     async updateBookTitle(book_id, book_title) {
         return new Promise((resolve, reject) => {
@@ -96,15 +125,13 @@ class BooksModel {
     }
 
     // @desc Updates a book page
-    async updateBookPage(book_id, page_update) {
-        // creates a new book
+    async updateBookPage(book_id, page_id, page_update) {
         return new Promise((resolve, reject) => {
             // get the page to update
             let book = data.find((book) => book.id === parseInt(book_id));
 
             if (book) {
-                if(page_update.page_id) {
-                    let page = book.pages[page_update.page_id - 1];
+                    let page = book.pages[page_id - 1];
                     if (page) {
                         //update the page
                         page.html = page_update.html;
@@ -119,23 +146,77 @@ class BooksModel {
                         }
                     } else {
                         // return an error
-                        reject(`Page ${page_update.page_id} not found`);
+                        reject(`Page ${page_id} not found`);
                     }
-                } else{
-                    //create a new page if no id is provided
-                    page_update.id = book.pages.length+1;
-                    //todo add input validation
-                    book.pages.push(page_update);
-                    let books_DB = JSON.stringify(data, null, 4);
+            } else {
+                // return an error
+                reject(`Book with id ${book_id} not found `);
+            }
+        });
+    }
+
+    // @desc Deletes a book
+    async removeBook(book_id) {
+        return new Promise((resolve, reject) => {
+            // get the book
+            let book = data.find((book) => book.id === parseInt(book_id));
+
+            if (book) {
+                let book_index = data.map((b) => b.id).indexOf(parseInt(book_id));
 
                     try {
+                        //delete book;
+                        data.splice(book_index, 1);
+                        let books_DB = JSON.stringify(data, null, 4);
+
+
                         //write to the DB
                         fs.writeFile('./data/books_DB.json', books_DB, () => {
-                            resolve(JSON.stringify(page_update, null, 4));
+                            resolve();
                         });
+
                     } catch (error) {
+                        console.log(error);
                         reject(JSON.stringify(error));
                     }
+
+            } else {
+                // return an error
+                reject(`Book with id ${book_id} not found `);
+            }
+        });
+    }
+
+    // @desc deletes a book page
+    async removeBookPage(book_id, page_id) {
+        // creates a new book
+        return new Promise((resolve, reject) => {
+            // get the book
+            let book = data.find((book) => book.id === parseInt(book_id));
+
+            if (book) {
+                let page = book.pages[page_id - 1];
+                if(page) {
+                    //let page_index = data.map((b) => b.id).indexOf(parseInt(book_id));
+
+                        try {
+                            //delete the page;
+                            book.pages.splice(page_id-1, 1);
+                            let books_DB = JSON.stringify(data, null, 4);
+
+                            //write to the DB
+                            fs.writeFile('./data/books_DB.json', books_DB, () => {
+                                resolve();
+                            });
+
+                        } catch (error) {
+                            console.log(error);
+                            reject(JSON.stringify(error));
+                        }
+                } else {
+                    // return an error
+                    reject(`Page ${page_id} not found`);
+
                 }
             }
             else {

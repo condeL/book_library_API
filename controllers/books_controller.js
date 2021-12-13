@@ -53,7 +53,7 @@ class BooksController {
 
     /*
     *@desc Gets a single book page in HTML format
-    *@route GET: /api/books/:id/page/id:/html
+    *@route GET: /api/books/:book_id/page/:page_id/html
     */
     async getBookPage(req, res, book_id, page_id) {
         try {
@@ -89,6 +89,24 @@ class BooksController {
     }
 
     /*
+    *@desc Creates a new page
+    *@route POST: /api/books/:book_id/page
+    */
+    async postBookPage(req, res, book_id, page_update) {
+        try {
+            const book = await new Books().createBookPage(book_id, page_update);
+
+            // set the status code and content-type
+            res.writeHead(200, {"Content-Type": "application/json"});
+            // send the data
+            res.end(book);
+
+        } catch (error) {
+            errorMsg(res, error);
+        }
+    }
+
+    /*
     *@desc Updates a single book's title
     *@route PUT: /api/books/:id
     */
@@ -108,11 +126,48 @@ class BooksController {
 
     /*
     *@desc Updates a single book's page
-    *@route PUT: /api/books/:id/page
+    *@route PUT: /api/books/:book_id/page/:page_id
     */
-    async putBookPage(req, res, book_id, page_update) {
+    async putBookPage(req, res, book_id, page_id, page_update) {
         try {
-            const book = await new Books().updateBookPage(book_id, page_update);
+            const book = await new Books().updateBookPage(book_id, page_id, page_update);
+
+            // set the status code and content-type
+            res.writeHead(200, {"Content-Type": "application/json"});
+            // send the data
+            res.end(book);
+
+        } catch (error) {
+            errorMsg(res, error);
+        }
+    }
+
+
+    /*
+    *@desc Deletes a single book
+    *@route PUT: /api/books/:id
+    */
+    async deleteBook(req, res, book_id) {
+        try {
+            const book = await new Books().removeBook(book_id);
+
+            // set the status code and content-type
+            res.writeHead(200, {"Content-Type": "application/json"});
+            // send the data
+            res.end(book);
+
+        } catch (error) {
+            errorMsg(res, error);
+        }
+    }
+
+    /*
+    *@desc Updates a single book's page
+    *@route DELETE: /api/books/:book_id/page/:page_id
+    */
+    async deleteBookPage(req, res, book_id, page_id) {
+        try {
+            const book = await new Books().removeBookPage(book_id, page_id);
 
             // set the status code and content-type
             res.writeHead(200, {"Content-Type": "application/json"});
