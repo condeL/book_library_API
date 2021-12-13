@@ -71,10 +71,10 @@ class BooksController {
     }
 
     /*
-    *@desc Gets a single book page in HTML format
-    *@route GET: /api/books/:id/page/id:/html
+    *@desc Creates a single book
+    *@route POST: /api/books
     */
-    async createBook(req, res, book) {
+    async postBook(req, res, book) {
         try {
             const result = await new Books().createBook(book);
 
@@ -82,6 +82,42 @@ class BooksController {
             res.writeHead(200, {"Content-Type": "application/json"});
             // send the data
             res.end(result);
+
+        } catch (error) {
+            errorMsg(res, error);
+        }
+    }
+
+    /*
+    *@desc Updates a single book's title
+    *@route PUT: /api/books/:id
+    */
+    async putBookTitle(req, res, book_id, book_title) {
+        try {
+            const book = await new Books().updateBookTitle(book_id, book_title);
+
+            // set the status code and content-type
+            res.writeHead(200, {"Content-Type": "application/json"});
+            // send the data
+            res.end(book);
+
+        } catch (error) {
+            errorMsg(res, error);
+        }
+    }
+
+    /*
+    *@desc Updates a single book's page
+    *@route PUT: /api/books/:id/page
+    */
+    async putBookPage(req, res, book_id, page_update) {
+        try {
+            const book = await new Books().updateBookPage(book_id, page_update);
+
+            // set the status code and content-type
+            res.writeHead(200, {"Content-Type": "application/json"});
+            // send the data
+            res.end(book);
 
         } catch (error) {
             errorMsg(res, error);

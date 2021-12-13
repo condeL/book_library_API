@@ -38,7 +38,19 @@ const server = http.createServer(async (req, res) => {
     }
     // /api/books :POST
     else if (url === "/api/books" && req.method === "POST") {
-        await new BooksController().createBook(req, res, JSON.parse(data));
+        await new BooksController().postBook(req, res, JSON.parse(data));
+    }
+    // /api/books/:id : PUT
+    else if (url.match(/\/api\/books\/(\d+$)/) && req.method === "PUT") {
+        // get id from url
+        const book_id = req.url.split("/")[3];
+        await new BooksController().putBookTitle(req, res, book_id, JSON.parse(data).title);
+    }
+    // /api/books/:id/page : PUT
+    if (url.match(/\/api\/books\/(\d+)\/page/) && req.method === "PUT") {
+        // get id from url
+        const book_id = req.url.split("/")[3];
+        await new BooksController().putBookPage(req, res, book_id, JSON.parse(data));
     }
     // No route present
     else {
