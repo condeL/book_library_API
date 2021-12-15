@@ -6,6 +6,9 @@
 const http = require("http");
 const PORT = process.env.PORT || 8080;
 const BooksController = require("./controllers/books_controller");
+const PagesController = require("./controllers/pages_controller");
+const {noRouteFound} = require("./controllers/error_msg");
+
 
 const server = http.createServer(async (req, res) => {
     //set request route
@@ -23,9 +26,9 @@ const server = http.createServer(async (req, res) => {
         const book_id = req.url.split("/")[3];
         const page_id = req.url.split("/")[5];
 
-        await new BooksController().getBookPage(req, res, book_id, page_id);
+        await new PagesController().getPage(req, res, book_id, page_id);
     }
-    // /api/books/:id : GET
+    // /api/books/:book_id : GET
     else if (url.match(/\/api\/books\/(\d+$)/) && req.method === "GET") {
         // get id from url
         const book_id = req.url.split("/")[3];
@@ -36,11 +39,11 @@ const server = http.createServer(async (req, res) => {
     else if (url === "/api/books" && req.method === "GET") {
         await new BooksController().getAllBooks(req, res);
     }
-    // /api/books/:id/page : POST
-    else if (url.match(/\/api\/books\/(\d+$)/) && req.method === "POST") {
+    // /api/books/:book_id/page : POST
+    else if (url.match(/\/api\/books\/(\d+)\/page/) && req.method === "POST") {
         // get book id from url
         const book_id = req.url.split("/")[3];
-        await new BooksController().postBookPage(req, res, book_id, JSON.parse(data));
+        await new PagesController().postPage(req, res, book_id, JSON.parse(data));
     }
     // /api/books :POST
     else if (url === "/api/books" && req.method === "POST") {
@@ -51,9 +54,9 @@ const server = http.createServer(async (req, res) => {
         // get book and page id from url
         const book_id = req.url.split("/")[3];
         const page_id = req.url.split("/")[5];
-        await new BooksController().putBookPage(req, res, book_id, page_id, JSON.parse(data));
+        await new PagesController().putPage(req, res, book_id, page_id, JSON.parse(data));
     }
-    // /api/books/:id : PUT
+    // /api/books/:book_id : PUT
     else if (url.match(/\/api\/books\/(\d+$)/) && req.method === "PUT") {
         // get id from url
         const book_id = req.url.split("/")[3];
@@ -64,9 +67,9 @@ const server = http.createServer(async (req, res) => {
         // get book and page id from url
         const book_id = req.url.split("/")[3];
         const page_id = req.url.split("/")[5];
-        await new BooksController().deleteBookPage(req, res, book_id, page_id);
+        await new PagesController().deletePage(req, res, book_id, page_id);
     }
-    // /api/books/:id : DELETE
+    // /api/books/:book_id : DELETE
     else if (url.match(/\/api\/books\/(\d+$)/) && req.method === "DELETE") {
         // get id from url
         const book_id = req.url.split("/")[3];
@@ -74,7 +77,7 @@ const server = http.createServer(async (req, res) => {
     }
     // No route present
     else {
-        await new BooksController().noRouteFound(req, res);
+        await noRouteFound(req, res);
     }
 });
 
