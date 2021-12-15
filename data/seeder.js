@@ -11,11 +11,9 @@ const books_DB = [
         "title": "Book 1",
         "pages": [
             {
-                "page_id": 1,
                 "html": "Hello World"
             },
             {
-                "page_id": 2,
                 "html": "Hello World 2"
             }
         ]
@@ -25,16 +23,13 @@ const books_DB = [
         "title": "Book 2",
         "pages": [
             {
-                "page_id": 1,
-                "html": "Hello World"
+                "html": "Book 2 page 1"
             },
             {
-                "page_id": 2,
-                "html": "Hello World 2"
+                "html": "Book 2 page 2"
             },
             {
-                "page_id": 3,
-                "html": "Hello World 3"
+                "html": "Book 2 page 3"
             }
         ]
     },
@@ -43,12 +38,10 @@ const books_DB = [
         "title": "Book 3",
         "pages": [
             {
-                "page_id": 1,
-                "html": "Hello World"
+                "html": "Book 3 page 1"
             },
             {
-                "page_id": 2,
-                "html": "Hello World 2"
+                "html": "Book 3 page 2"
             }
         ]
     },
@@ -57,20 +50,16 @@ const books_DB = [
         "title": "Book 4",
         "pages": [
             {
-                "page_id": 1,
-                "html": "Hello World"
+                "html": "Book 4 page 1"
             },
             {
-                "page_id": 2,
-                "html": "Hello World 2"
+                "html": "Book 4 page 2"
             },
             {
-                "page_id": 3,
-                "html": "Hello World 3"
+                "html": "Book 4 page 3"
             },
             {
-                "page_id": 4,
-                "html": "Hello World 4"
+                "html": "Book 4 page 4"
             }
         ]
     }
