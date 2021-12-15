@@ -8,7 +8,7 @@ const {errorMsg} = require("./error_msg");
 
 class BooksController {
     /*
-    *@desc Lists all book IDs and titles
+    *@desc Get all book IDs and titles
     *@route GET: /api/books
     */
     async getAllBooks(req, res) {
@@ -29,7 +29,7 @@ class BooksController {
     }
 
     /*
-    *@desc Lists all the pages in a book
+    *@desc Get all the pages in a book
     *@route GET: /api/books/:book_id
     */
     async getBookInfo(req, res, book_id) {
@@ -54,7 +54,7 @@ class BooksController {
     }
 
     /*
-    *@desc Creates a single book
+    *@desc Create a single book
     *@route POST: /api/books
     */
     async postBook(req, res, book) {
@@ -74,7 +74,7 @@ class BooksController {
 
 
     /*
-    *@desc Updates a single book's title
+    *@desc Update a book's title
     *@route PUT: /api/books/:book_id
     */
     async putBookTitle(req, res, book_id, book_title) {
@@ -92,8 +92,8 @@ class BooksController {
     }
 
     /*
-    *@desc Deletes a single book
-    *@route PUT: /api/books/:book_id
+    *@desc Delete a single book
+    *@route DELETE: /api/books/:book_id
     */
     async deleteBook(req, res, book_id) {
         try {

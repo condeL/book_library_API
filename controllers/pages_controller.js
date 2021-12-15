@@ -9,7 +9,7 @@ const {errorMsg} = require("./error_msg");
 
 class Pages_controller{
     /*
-    *@desc Gets a single book page in HTML format
+    *@desc Get a single book page in HTML format
     *@route GET: /api/books/:book_id/page/:page_id/html
     */
     async getPage(req, res, book_id, page_id) {
@@ -28,7 +28,7 @@ class Pages_controller{
     }
 
     /*
-    *@desc Creates a new page for a book
+    *@desc Create a new page for a book
     *@route POST: /api/books/:book_id/page
     */
     async postPage(req, res, book_id, page_update) {
@@ -46,7 +46,7 @@ class Pages_controller{
     }
 
     /*
-    *@desc Updates a book page
+    *@desc Update a book page
     *@route PUT: /api/books/:book_id/page/:page_id
     */
     async putPage(req, res, book_id, page_id, page_update) {
@@ -64,7 +64,7 @@ class Pages_controller{
     }
 
     /*
-    *@desc Updates a single book's page
+    *@desc Delete a book page
     *@route DELETE: /api/books/:book_id/page/:page_id
     */
     async deletePage(req, res, book_id, page_id) {
